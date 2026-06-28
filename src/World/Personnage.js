@@ -39,12 +39,7 @@ export default class Personnage {
     this._leftArm  = null
     this._rightArm = null
 
-    // Mobile joystick
     this._joystick = null
-    if (experience.isPhone) {
-      const jc = document.getElementById('joystick_container')
-      if (jc) this._joystick = new Joystick(jc)
-    }
 
     this._buildGroup()
     this._buildProceduralCharacter()
@@ -126,13 +121,6 @@ export default class Personnage {
   }
 
   _getTankInput() {
-    if (this._joystick?.active) {
-      const forward = this._joystick.forward
-      const dAngle  = this._joystick.dAngle
-      if (forward !== 0 || dAngle !== 0) {
-        return { forward: forward * 2, dAngle: dAngle * 2, magnitude: this._joystick.magnitude ?? 1 }
-      }
-    }
     const k = this.keyPressed
     const forward = (k.keyw || k.arrowup) ? 1 : (k.keys || k.arrowdown) ? -1 : 0
     const dAngle  = (k.keyd || k.arrowright) ? -1 : (k.keya || k.arrowleft) ? 1 : 0
