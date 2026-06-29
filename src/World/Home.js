@@ -3,7 +3,7 @@ import * as THREE from 'three'
 const PROJECTS = [
   { title: 'Neeradi — The Water\'s Way',          uid: 'neeradi',           thumb: 'assets/projects/neeradi.jpg' },
   { title: 'UnEarthed — Journey to Destination', uid: 'unearthed',         thumb: 'assets/projects/unearthed.png' },
-  { title: 'The Third Place',                     uid: 'third-place',       thumb: 'assets/projects/third-place.png' },
+  { title: 'The Third Place — Extension of the Street', uid: 'third-place', thumb: 'assets/projects/third-place.png' },
   { title: 'Internship',                          uid: 'internship',        thumb: null, canvas: true },
   { title: 'City\'s Living Room',                 uid: 'citys-living-room', thumb: 'assets/projects/citys-living-room.png' },
 ]
