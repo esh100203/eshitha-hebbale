@@ -62,7 +62,7 @@ export default class Experience {
         overlay.classList.add('fade')
         hint.classList.add('fade')
         setTimeout(() => { overlay.remove(); hint.remove() }, 550)
-      }, 2000)
+      }, 500)
     }, 600)
   }
 

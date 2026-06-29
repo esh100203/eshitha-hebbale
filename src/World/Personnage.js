@@ -187,7 +187,7 @@ export default class Personnage {
       const isMoving = joystickAngle != null || forward !== 0
 
       if (isMoving) {
-        this._speedFactor = Math.min(1, this._speedFactor + dt * 7)
+        this._speedFactor = Math.min(1, this._speedFactor + dt * 20)
         const spd = this.velocity * this._speedFactor * magnitude * (joystickAngle != null ? 1 : forward)
 
         this.group.position.x -= Math.sin(this._facingAngle) * spd * dt
