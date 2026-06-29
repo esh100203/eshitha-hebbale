@@ -1114,7 +1114,7 @@ h1 {
 }
 .nr_map_side_text p {
   font-family: 'Josefin Sans', sans-serif;
-  font-size: clamp(11px, 0.95vw, 14px);
+  font-size: clamp(12px, 1.1vw, 16px);
   font-weight: 400;
   color: #1e1e1e;
   line-height: 1.6;
@@ -2473,10 +2473,7 @@ h1 {
   .clr_desc_bottom,
   .in_desc_bottom { font-size: clamp(11px, 0.9vw, 14px); }
 
-  /* Context/body text */
-  .nr_context_text,
-  .nr_map_side_text,
-  .clr_desc_text { font-size: clamp(11px, 0.9vw, 14px); }
+  /* Context/body text — removed override so global clamp(12px,1.1vw,16px) applies */
 
   /* Third place plan text — targets the actual paragraphs */
   .tp_plan_desc p {
