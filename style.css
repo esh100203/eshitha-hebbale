@@ -595,7 +595,7 @@ h1 {
 .pp_back_btn:hover { background: #111; color: #fff; border-color: #111; }
 
 /* ── Scrollable content area ── */
-.pp_scroll { width: 100%; }
+.pp_scroll { width: 100%; background: #f4f2ee; }
 
 /* ── Fallback placeholder ── */
 .pp_placeholder {
