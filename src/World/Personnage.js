@@ -178,11 +178,11 @@ export default class Personnage {
       if (joystickAngle != null) {
         this._facingAngle = joystickAngle
       } else {
-        this._facingAngle += dAngle * dt * 1.5
+        this._facingAngle += dAngle * dt * 0.9
       }
 
       this.rotateQuaternion.setFromAxisAngle(this.rotateAngle, this._facingAngle)
-      this.group.quaternion.rotateTowards(this.rotateQuaternion, 0.06)
+      this.group.quaternion.rotateTowards(this.rotateQuaternion, 0.035)
 
       const isMoving = joystickAngle != null || forward !== 0
 
