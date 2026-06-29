@@ -68,10 +68,37 @@ const fragmentShader = `
   }
 `
 
-// Cache textures — generate once, reuse
+// Cache textures and geometry — create once, reuse forever
 const _texL  = makeFootprintTexture(true)
 const _texR  = makeFootprintTexture(false)
 const _noise = makeNoiseTexture()
+const _geo   = new THREE.PlaneGeometry(0.32, 0.42)
+
+function makeMat(isLeft) {
+  return new THREE.ShaderMaterial({
+    vertexShader, fragmentShader,
+    uniforms: {
+      u_tex:      { value: isLeft ? _texL : _texR },
+      u_noise:    { value: _noise },
+      u_progress: { value: 0 }
+    },
+    transparent: true, depthWrite: false, depthTest: true,
+    polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
+    side: THREE.DoubleSide
+  })
+}
+
+// Pre-built pool — no GPU allocations during walking
+const POOL_SIZE = 10
+const _pool = []
+for (let i = 0; i < POOL_SIZE; i++) {
+  const mat  = makeMat(i % 2 === 0)
+  const mesh = new THREE.Mesh(_geo, mat)
+  mesh.rotation.x = -Math.PI / 2
+  mesh.renderOrder = 1
+  mesh.visible = false
+  _pool.push({ mesh, mat, inUse: false, isLeft: i % 2 === 0 })
+}
 
 export default class Footprint {
   constructor(experience, position, isLeft) {
@@ -79,46 +106,31 @@ export default class Footprint {
     this.scene = experience.scene
     this._done = false
 
-    const geo = new THREE.PlaneGeometry(0.32, 0.42)
-    const mat = new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        u_tex:      { value: isLeft ? _texL : _texR },
-        u_noise:    { value: _noise },
-        u_progress: { value: 0 }
-      },
-      transparent: true,
-      depthWrite: false,
-      depthTest: true,
-      polygonOffset: true,
-      polygonOffsetFactor: -2,
-      polygonOffsetUnits: -2,
-      side: THREE.DoubleSide
-    })
+    // Grab a pooled slot with matching foot side
+    this._slot = _pool.find(s => !s.inUse && s.isLeft === isLeft)
+      || _pool.find(s => !s.inUse)   // fallback: any free slot
+    if (!this._slot) { this._done = true; return }
 
-    this.mesh = new THREE.Mesh(geo, mat)
-    this.mesh.rotation.x = -Math.PI / 2
-    this.mesh.position.copy(position)
-    this.mesh.position.y = 0.005
-    this.mesh.renderOrder = 1
-    this.scene.add(this.mesh)
+    this._slot.inUse = true
+    this._slot.mat.uniforms.u_tex.value = isLeft ? _texL : _texR
+    this._slot.mat.uniforms.u_progress.value = 0
+    this._slot.mesh.position.copy(position)
+    this._slot.mesh.position.y = 0.005
+    this._slot.mesh.visible = true
+    this.scene.add(this._slot.mesh)
 
-    this._mat = mat
-    this._geo = geo
     this._startTime = performance.now()
-    this._duration = 1000 // ms
+    this._duration  = 1000
   }
 
-  // Called every frame from Personnage.update()
   tick() {
     if (this._done) return
     const t = Math.min((performance.now() - this._startTime) / this._duration, 1)
-    this._mat.uniforms.u_progress.value = t
+    this._slot.mat.uniforms.u_progress.value = t
     if (t >= 1) {
-      this.scene.remove(this.mesh)
-      this._mat.dispose()
-      this._geo.dispose()
+      this._slot.mesh.visible = false
+      this.scene.remove(this._slot.mesh)
+      this._slot.inUse = false
       this._done = true
     }
   }

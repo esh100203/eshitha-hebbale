@@ -30,15 +30,17 @@ export default class Camera {
   }
 
   follow(charPos, charQuat, dt = 0.016) {
-    const posAlpha  = 1 - Math.exp(-18 * dt)
-    const lookAlpha = 1 - Math.exp(-14 * dt)
+    // Cap dt so slow frames don't cause camera jumps
+    const safeDt = Math.min(dt, 0.022)
+    const posAlpha  = 1 - Math.exp(-12 * safeDt)
+    const lookAlpha = 1 - Math.exp(-9  * safeDt)
 
     this._offset.set(0, 0, 2.4)
     this._offset.applyQuaternion(charQuat)
 
     this._targetPos.set(
       charPos.x + this._offset.x,
-      charPos.y + 1.65,
+      1.65,                          // fixed eye height — don't follow walk bob
       charPos.z + this._offset.z
     )
     this.instance.position.lerp(this._targetPos, posAlpha)
@@ -46,11 +48,10 @@ export default class Camera {
     this._fwd.set(0, 0, -1).applyQuaternion(charQuat)
 
     const lx = charPos.x + this._fwd.x * 5
-    const ly = charPos.y + 0.9
     const lz = charPos.z + this._fwd.z * 5
 
     this._lookTarget.x += (lx - this._lookTarget.x) * lookAlpha
-    this._lookTarget.y += (ly - this._lookTarget.y) * lookAlpha
+    this._lookTarget.y += (0.9 - this._lookTarget.y) * lookAlpha
     this._lookTarget.z += (lz - this._lookTarget.z) * lookAlpha
 
     this.instance.lookAt(this._lookTarget)
