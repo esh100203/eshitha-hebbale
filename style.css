@@ -2476,14 +2476,20 @@ h1 {
   /* Context/body text */
   .nr_context_text,
   .nr_map_side_text,
-  .tp_plan_desc,
   .clr_desc_text { font-size: clamp(11px, 0.9vw, 14px); }
+
+  /* Third place plan text — targets the actual paragraphs */
+  .tp_plan_desc p {
+    font-size: clamp(10px, 0.8vw, 13px);
+    line-height: 1.5;
+  }
+  .tp_plan_desc { padding: 0 12px 12px 16px; gap: 6px; }
+  .tp_plan_section { padding-top: 32px; padding-left: 28px; }
 
   /* Section padding */
   .nr_context_text { padding: 28px 40px 16px 24px; }
   .nr_map_section  { padding: 32px 40px; }
   .nr_plan_text    { padding: 0 32px 20px; }
-  .tp_plan_section { padding: 32px 40px; }
   .clr_desc_section { padding: 32px 40px; }
 
   /* Third place hero flex proportion */
