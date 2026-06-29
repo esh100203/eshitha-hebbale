@@ -407,11 +407,8 @@ h1 {
 }
 .loader_title {
   color: var(--white);
-  font-family: var(--font_family);
   font-size: 40rem;
-  font-weight: 300;
-  text-transform: uppercase;
-  letter-spacing: 8rem;
+  text-transform: none;
   text-align: right;
   transform: translateY(110%);
 }
