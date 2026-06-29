@@ -22,9 +22,9 @@ export default class Camera {
       0.05,
       200
     )
-    // Start behind spawn position, at adult eye level
-    this.instance.position.set(0, 1.65, 9.2)
-    this._lookTarget.set(0, 0.9, 2)
+    // Start behind avatar spawn (0, 0, 13), offset 2.8 units back
+    this.instance.position.set(0, 1.9, 15.8)
+    this._lookTarget.set(0, 0.75, 8)
     this.instance.lookAt(this._lookTarget)
     this.scene.add(this.instance)
   }
@@ -33,7 +33,7 @@ export default class Camera {
     // Cap dt so slow frames don't cause camera jumps
     const safeDt = Math.min(dt, 0.022)
     const posAlpha  = 1
-    const lookAlpha = 1 - Math.exp(-25 * safeDt)
+    const lookAlpha = 1
 
     this._offset.set(0, 0, 2.8)
     this._offset.applyQuaternion(charQuat)

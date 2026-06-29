@@ -224,7 +224,9 @@ export default class Personnage {
     this._footprints.forEach(f => f.tick())
     this._footprints = this._footprints.filter(f => !f._done)
 
-    // Camera
-    this.camera.follow(this.group.position, this.group.quaternion, dt)
+    // Camera — only update while avatar is moving or rotating
+    if (this.directionPressed) {
+      this.camera.follow(this.group.position, this.group.quaternion, dt)
+    }
   }
 }
