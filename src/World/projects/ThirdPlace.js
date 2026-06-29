@@ -52,7 +52,7 @@
 
       <!-- Section 4: Site Plan full width -->
       <div class="tp_siteplan_section">
-        <img loading="lazy" src="assets/projects/thirdplace/site-plan-a.png" alt="Site Plan" class="tp_siteplan_img" />
+        <img loading="lazy" src="assets/projects/thirdplace/site-plan-a.jpg" alt="Site Plan" class="tp_siteplan_img" />
       </div>
 
       <!-- Section 5: Section 2 clipped -->
