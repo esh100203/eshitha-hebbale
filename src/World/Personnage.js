@@ -27,7 +27,7 @@ export default class Personnage {
     this._stepInterval = 0.38
     this._isLeftFoot   = true
     this._footprints   = []
-    this._prevSin      = -1
+    this._prevSin      = 0
 
     // Animation phases
     this._walkPhase = 0
@@ -224,9 +224,7 @@ export default class Personnage {
     this._footprints.forEach(f => f.tick())
     this._footprints = this._footprints.filter(f => !f._done)
 
-    // Camera — only update while avatar is moving or rotating
-    if (this.directionPressed) {
-      this.camera.follow(this.group.position, this.group.quaternion, dt)
-    }
+    // Camera always tracks avatar — no lag since posAlpha and lookAlpha are both 1
+    this.camera.follow(this.group.position, this.group.quaternion, dt)
   }
 }
