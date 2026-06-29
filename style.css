@@ -403,7 +403,7 @@ h1 {
 .loader_line {
   width: 0%; height: 100%;
   background-color: var(--white);
-  margin-left: 0;
+  margin-left: auto;
 }
 .loader_title {
   color: var(--white);
